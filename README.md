@@ -1,2 +1,2 @@
 # pacm
-A high level packet manger base on pacman
+A high-level package manager based on pacman for Linux.
