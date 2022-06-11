@@ -16,7 +16,7 @@ func clone(url string, folder string) bool {
 	fmt.Println("Try to download " + url + ".")
 	os.Chdir(folder)
 	// 下载
-	resp, err := http.Get("https://github.com/cleararch/test_packeage_store/archive/refs/heads/" + zip_name)
+	resp, err := http.Get("https://github.com/cleararch/test_package_store/archive/refs/heads/" + zip_name)
 	if err != nil {
 		return false
 	}
@@ -30,7 +30,7 @@ func clone(url string, folder string) bool {
 	if err != nil {
 		return false
 	}
-	//解压缩
+	// 解压缩
 	zipReader, err := zip.OpenReader(zip_name)
 	if err != nil {
 		return false
