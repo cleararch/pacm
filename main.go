@@ -13,7 +13,6 @@ import (
 
 func clone(url string, folder string) bool {
 	zip_name := url + ".zip"
-	fmt.Println("Try to download " + url + ".")
 	os.Chdir(folder)
 	// 下载
 	resp, err := http.Get("https://github.com/cleararch/test_package_store/archive/refs/heads/" + zip_name)
@@ -81,7 +80,6 @@ func package_install(package_name string) bool {
 	_ = press_y.Run()
 	err := install.Wait()
 	if err != nil {
-		fmt.Println(err)
 		return false
 	}
 	return true
@@ -102,20 +100,38 @@ func package_remove(package_name string) bool {
 func main() {
 	package_ins := flag.String("install", "foo", "Install package.")
 	package_rem := flag.String("remove", "foo", "Remove package.(Same as pacman -Rscun foo)")
+	frontend_use := flag.String("frontend", "0", "Only in programme used(0/1)")
 	// package_sea := flag.String("search", "foo", "Search package.")
 	flag.Parse()
-	if *package_ins != "foo" {
-		if package_install(*package_ins) != true {
-			fmt.Println("Can not install " + *package_ins + " package.")
-		} else {
-			fmt.Println("Install " + *package_ins + " successfully.")
+	if *frontend_use == 0 {
+		if *package_ins != "foo" {
+			if package_install(*package_ins) != true {
+				fmt.Println("Can not install " + *package_ins + " package.")
+			} else {
+				fmt.Println("Install " + *package_ins + " successfully.")
+			}
 		}
-	}
-	if *package_rem != "foo" {
-		if package_remove(*package_rem) != true {
-			fmt.Println("Can not remove " + *package_rem + " package.")
-		} else {
-			fmt.Println("Remove " + *package_rem + " successfully.")
+		if *package_rem != "foo" {
+			if package_remove(*package_rem) != true {
+				fmt.Println("Can not remove " + *package_rem + " package.")
+			} else {
+				fmt.Println("Remove " + *package_rem + " successfully.")
+			}
+		}
+	} else {
+		if *package_ins != "foo" {
+			if package_install(*package_ins) != true {
+				fmt.Println("0")
+			} else {
+				fmt.Println("1")
+			}
+		}
+		if *package_rem != "foo" {
+			if package_remove(*package_rem) != true {
+				fmt.Println("0")
+			} else {
+				fmt.Println("1")
+			}
 		}
 	}
 }
