@@ -15,6 +15,7 @@ func clone(url string, folder string) bool {
 	zip_name := url + ".zip"
 	os.Chdir(folder)
 	// 下载
+	fmt.Println("Start PKGBUILD Download.")
 	resp, err := http.Get("https://github.com/cleararch/test_package_store/archive/refs/heads/" + zip_name)
 	if err != nil {
 		return false
@@ -29,13 +30,13 @@ func clone(url string, folder string) bool {
 	if err != nil {
 		return false
 	}
+	fmt.Println("Finish PKGBUILD Download.")
 	// 解压缩
 	zipReader, err := zip.OpenReader(zip_name)
 	if err != nil {
 		return false
 	}
 	defer zipReader.Close()
-
 	for _, f := range zipReader.File {
 		fpath := filepath.Join(folder, f.Name)
 		if f.FileInfo().IsDir() {
@@ -72,7 +73,7 @@ func package_install(package_name string) bool {
 	if clone == false {
 		return false
 	}
-	os.Chdir("/tmp/" + "test_packeage_store-" + package_name)
+	os.Chdir("/tmp/" + "test_package_store-" + package_name)
 	press_y := exec.Command("echo", "y")
 	install := exec.Command("makepkg", "-fsi")
 	install.Stdin, _ = press_y.StdoutPipe()
@@ -80,6 +81,7 @@ func package_install(package_name string) bool {
 	_ = press_y.Run()
 	err := install.Wait()
 	if err != nil {
+		fmt.Println("err")
 		return false
 	}
 	return true
@@ -103,7 +105,7 @@ func main() {
 	frontend_use := flag.String("frontend", "0", "Only in programme used(0/1)")
 	// package_sea := flag.String("search", "foo", "Search package.")
 	flag.Parse()
-	if *frontend_use == 0 {
+	if *frontend_use == "0" {
 		if *package_ins != "foo" {
 			if package_install(*package_ins) != true {
 				fmt.Println("Can not install " + *package_ins + " package.")
