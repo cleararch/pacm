@@ -1,9 +1,13 @@
 pkgname=pacm
-pagrel=1
+pkgrel=1
 pkgver=0.01
-LICENSE=AGPL v3
+arch=(x86_64)
+LICENSE="AGPLv3"
 build(){
-go build $srcdir/main.go
+go build $srcdir/../main.go
 }
 package(){
-mv 
+	mkdir $pkgdir/usr
+	mkdir $pkgdir/usr/bin
+	mv main $pkgdir/usr/bin/pacm
+}
