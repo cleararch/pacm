@@ -2,6 +2,7 @@ package main
 
 import (
 	"archive/zip"
+	"bytes"
 	"flag"
 	"fmt"
 	"io"
@@ -79,9 +80,23 @@ func package_install(package_name string) bool {
 	install.Stdin, _ = press_y.StdoutPipe()
 	_ = install.Start()
 	_ = press_y.Run()
+	// watching_install := func() {
+	// 	var output, sop bytes.Buffer
+	// 	install.Stdout = &sop
+	// 	for {
+	// 		install.Stderr = &output
+	// 		if string(sop.Bytes()) != string(output.Bytes()) {
+	// 			_ = exec.Command("clear").Run()
+	// 		} else {
+	// 			sop = output
+	// 		}
+	// 	}
+	// }
+	// go watching_install()
+	fmt.Println("Start Watching Succuesfully.")
 	err := install.Wait()
 	if err != nil {
-		fmt.Println("err")
+		fmt.Println(err)
 		return false
 	}
 	return true
