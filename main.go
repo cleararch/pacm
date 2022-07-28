@@ -93,7 +93,7 @@ func package_install(package_name string) bool {
 	// 	}
 	// }
 	// go watching_install()
-	fmt.Println("Start Watching Succuesfully.")
+	// fmt.Println("Start Watching Succuesfully.")
 	err := install.Wait()
 	if err != nil {
 		fmt.Println(err)
@@ -115,39 +115,43 @@ func package_remove(package_name string) bool {
 	}
 }
 func main() {
-	package_ins := flag.String("install", "foo", "Install package.")
-	package_rem := flag.String("remove", "foo", "Remove package.(Same as pacman -Rscun foo)")
-	frontend_use := flag.String("frontend", "0", "Only in programme used(0/1)")
+	package_ins := flag.String("install", "foo", "安装包。")
+	package_rem := flag.String("remove", "foo", "移除包。")
+	frontend_use := flag.String("frontend", "0", "程序使用，无输出")
 	// package_sea := flag.String("search", "foo", "Search package.")
 	flag.Parse()
 	if *frontend_use == "0" {
 		if *package_ins != "foo" {
 			if package_install(*package_ins) != true {
-				fmt.Println("Can not install " + *package_ins + " package.")
+				fmt.Println("无法安装" + *package_ins + " 包。")
+				os.Exit(1)
 			} else {
-				fmt.Println("Install " + *package_ins + " successfully.")
+				fmt.Println("安装 " + *package_ins + "成功")
+				os.Exit(0)
 			}
 		}
 		if *package_rem != "foo" {
 			if package_remove(*package_rem) != true {
-				fmt.Println("Can not remove " + *package_rem + " package.")
+				fmt.Println("未能移除" + *package_rem + "包")
+				os.Exit(1)
 			} else {
-				fmt.Println("Remove " + *package_rem + " successfully.")
+				fmt.Println("移除 " + *package_rem + "包成功")
+				os.Exit(0)
 			}
 		}
 	} else {
 		if *package_ins != "foo" {
 			if package_install(*package_ins) != true {
-				fmt.Println("0")
+				os.Exit(1)
 			} else {
-				fmt.Println("1")
+				os.Exit(0)
 			}
 		}
 		if *package_rem != "foo" {
 			if package_remove(*package_rem) != true {
-				fmt.Println("0")
+				os.Exit(1)
 			} else {
-				fmt.Println("1")
+				os.Exit(0)
 			}
 		}
 	}
